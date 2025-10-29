@@ -8,7 +8,7 @@
 #include "ModuleData_MarioSubMeter_Ext.h"
 
 namespace {
-	void createExtMarioSubMeter(SubMeterLayout* pAirMeter, MarioSubMeter_Ext* pMarioSubMeter) {
+	void createExtMarioSubMeter(SubMeterLayout* pAirMeter, MarioSubMeter_Ext* __restrict pMarioSubMeter) {
 		pMarioSubMeter->mAirMeter = pAirMeter;
 		pAirMeter->initWithoutIter(); //Vanilla code
 
@@ -17,6 +17,11 @@ namespace {
 		pMarioSubMeter->mExtSubMeterList = new SubMeterLayout * [pMarioSubMeter->mExtSubMeterListCount];
 		for (s32 i = 0; i < pMarioSubMeter->mExtSubMeterListCount; i++)
 		{
+			// The __restrict keyword for pMarioSubMeter here actually saves us two instructions!
+			// __restrict promises to CodeWarrior that nothing else will modify pMarioSubMeter,
+			//   thus allowing CodeWarrior to drop the two instructions that would be needed to
+			//   re-load the pointer of the SubMeterLayout (that we just made anyways)
+			//   tbh I don't actually know what __restrict fully requires, but it works properly here so it's fine.
 			MarioSubMeterEntry msme = cModuleMarioSubMeterTable[i + 1];
 			pMarioSubMeter->mExtSubMeterList[i] = new SubMeterLayout(msme.mRefName, msme.mLayoutName);
 			pMarioSubMeter->mExtSubMeterList[i]->initWithoutIter();
