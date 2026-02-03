@@ -104,7 +104,7 @@ namespace {
 // === API Stuff ===
 
 // Returns the existing MarioSubMeter_Ext instance that is used by the game.
-// Note that the definition of MarioSubMeter_Ext requires including the Class Extensions API in the "ModuleDependancies"
+// Note that the definition of MarioSubMeter_Ext requires including the Class Extensions API in the "RequiredAPIs"
 MarioSubMeter_Ext* getExtMarioSubMeter()
 {
 	GameSceneLayoutHolder* pGameSceneLayoutHolder = MR::getGameSceneLayoutHolder();
@@ -135,7 +135,7 @@ SubMeterLayout* getMarioSubMeter(const char* pRefName)
 }
 
 // Returns the currently active SubMeterLayout
-// Note that using this does not require including the Class Extensions API in the "ModuleDependancies"
+// Note that using this does not require including the Class Extensions API in the "RequiredAPIs"
 SubMeterLayout* getCurrentMarioSubMeter()
 {
 	MarioSubMeter_Ext* pmarioSubMeter = getExtMarioSubMeter();
